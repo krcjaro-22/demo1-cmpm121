@@ -23,5 +23,25 @@ const counterElement = document.getElementById("counter")!;
 button.addEventListener("click", () => {
   counter += 1; //update state
   counterElement.textContent = counter.toString(); //show new state
-    
+  
 });
+
+//display:
+//show current number of leaves on the page
+function render() { 
+  counterElement.textContent = counter.toString();
+}
+
+//input handling
+//each click grows one leaf
+button.addEventListener("click", () => { 
+  counter += 1;//update state
+  render(); //show new state
+});
+
+//timed growth
+//every 1000 ms (1 second), one leaf grows automatically
+setInterval(() => { 
+  counter += 1;
+  render();
+}, 1000);
