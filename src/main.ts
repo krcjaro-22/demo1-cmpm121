@@ -29,7 +29,7 @@ button.addEventListener("click", () => {
 //display:
 //show current number of leaves on the page
 function render() { 
-  counterElement.textContent = counter.toString();
+  counterElement.textContent = Math.floor(counter).toString();
 }
 
 //input handling
@@ -40,8 +40,21 @@ button.addEventListener("click", () => {
 });
 
 //timed growth
-//every 1000 ms (1 second), one leaf grows automatically
-setInterval(() => { 
-  counter += 1;
+//leaves grown per second, no matter how fast the screen refreshes
+const growthRate: number = 1;
+
+//time of prev frame in milliseconds
+let lastTime = performance.now();
+
+//runs once per frame. grow leaves based on seconds elapsed,
+//so 60hz and 114hz screen grow at the same speed
+function tick(now: number) { 
+  const secondsElapsed = (now - lastTime) / 1000;
+  lastTime = now;
+
+  counter += growthRate * secondsElapsed;
   render();
-}, 1000);
+
+  requestAnimationFrame(tick);//schedule next frame
+}
+requestAnimationFrame(tick);
