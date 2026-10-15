@@ -2,6 +2,17 @@
  * Main entry point for the CMPM 121 Section Activity
  * Simple starter template - customize to your heart's content!
  */
+import "./style.css";
+
+import cheese from "./assets/cheese.png?no-inline";
+
+import tomato from "./assets/tomato.png?no-inline";
+
+import slice from "./assets/pizza-slice.png?no-inline";
+
+import pizza from "./assets/whole-pizza.png?no-inline";
+
+import oven from "./assets/oven.png?no-inline";
 
 console.log("🎮 CMPM 121 - Starting...");
 
@@ -11,22 +22,24 @@ let counter: number = 0;
 
 // Create basic HTML structure
 document.body.innerHTML = `
-  <h1>Pizza Empire</h1>
-  <p>Counter: <span id="counter">0</span> pizzas </p>
-  <button id="increment">Make pizza</button>
-  <button id="upgrade">Hire line cook (+1 pizza/sec): 10 pizzas</button>
+  <h1>CMPM 121 Project</h1>
+  <p>Counter: <span id="counter">0</span></p>
+  <button id="increment">Grow!</button>
 `;
 
 // Add click handler
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
-const upgradeButton = document.getElementById("upgrade") as HTMLButtonElement;
 
-//display:
+const pizzaImage = document.createElement("img");
+pizzaImage.src = pizza;
+pizzaImage.alt = "Small pizza";
+button.replaceChildren(pizzaImage);
+
+//display:deno
 //show current number of pizzas on the page
-function render() { 
+function render() {
   counterElement.textContent = Math.floor(counter).toString();
-  upgradeButton.disabled = counter < upgradeCost;
 }
 
 //input handling
@@ -38,7 +51,7 @@ button.addEventListener("click", () => {
 
 //timed growth
 //pizzas made per second, no matter how fast the screen refreshes
-let growthRate: number = 0;
+const growthRate: number = 1;
 
 //time of prev frame in milliseconds
 let lastTime = performance.now();
@@ -56,14 +69,3 @@ function tick(now: number) {
 }
 requestAnimationFrame(tick);
 
-//upgrade: line cook
-//cost of one line cook in pizzas
-const upgradeCost: number = 10;
-
-//hiring cook spends pizzas and permanently adds 1 pizza/sec
-upgradeButton.addEventListener("click", () => { 
-  if (counter < upgradeCost) return; //can't afford it, do nothing
-  counter -= upgradeCost; //pay cost
-  growthRate += 1; //add lasting effect
-  render();
-});
