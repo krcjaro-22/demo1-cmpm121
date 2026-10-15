@@ -6,14 +6,15 @@
 console.log("🎮 CMPM 121 - Starting...");
 
 // Simple counter for demonstration
-// deno-lint-ignore prefer-const
+// how many pizzas the player has
 let counter: number = 0;
 
 // Create basic HTML structure
 document.body.innerHTML = `
-  <h1>CMPM 121 Project</h1>
-  <p>Counter: <span id="counter">0</span></p>
-  <button id="increment">Grow!</button>
+  <h1>Pizza Empire</h1>
+  <p>Counter: <span id="counter">0</span pizza></p>
+  <button id="increment">Make pizza</button>
+  <button id="upgrade">Hire line cook (+1 pizza/sec): 10 pizzas</button>
 `;
 
 // Add click handler
