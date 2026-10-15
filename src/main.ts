@@ -5,13 +5,9 @@
 import "./style.css";
 
 import cheese from "./assets/cheese.png?no-inline";
-
 import tomato from "./assets/tomato.png?no-inline";
-
 import slice from "./assets/pizza-slice.png?no-inline";
-
 import pizza from "./assets/whole-pizza.png?no-inline";
-
 import oven from "./assets/oven.png?no-inline";
 
 console.log("🎮 CMPM 121 - Starting...");
@@ -20,11 +16,23 @@ console.log("🎮 CMPM 121 - Starting...");
 // how many pizzas the player has
 let counter: number = 0;
 
-// Create basic HTML structure
+// page layout
 document.body.innerHTML = `
-  <h1>CMPM 121 Project</h1>
-  <p>Counter: <span id="counter">0</span></p>
-  <button id="increment">Grow!</button>
+  <h1>Pizza Empire</h1>
+  <p><img src="${slice}" width="32" alt=""> <span id="counter">0</span> pizzas</p>
+  <p><span id="rate">0</span> pizzas/sec</p>
+  <button id="increment"></button>
+  <div>
+    <button id="tomato">
+      <img src="${tomato}" width="40" alt=""> <span id="tomato-label"></span>
+    </button>
+    <button id="cheese">
+      <img src="${cheese}" width="40" alt=""> <span id="cheese-label"></span>
+    </button>
+    <button id="oven">
+      <img src="${oven}" width="40" alt=""> <span id="oven-label"></span>
+    </button>
+  </div>
 `;
 
 // Add click handler
@@ -51,7 +59,7 @@ button.addEventListener("click", () => {
 
 //timed growth
 //pizzas made per second, no matter how fast the screen refreshes
-const growthRate: number = 1;
+let growthRate: number = 1;
 
 //time of prev frame in milliseconds
 let lastTime = performance.now();
