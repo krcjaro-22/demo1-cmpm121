@@ -12,7 +12,7 @@ let counter: number = 0;
 // Create basic HTML structure
 document.body.innerHTML = `
   <h1>Pizza Empire</h1>
-  <p>Counter: <span id="counter">0</span pizza></p>
+  <p>Counter: <span id="counter">0</span> pizzas </p>
   <button id="increment">Make pizza</button>
   <button id="upgrade">Hire line cook (+1 pizza/sec): 10 pizzas</button>
 `;
@@ -20,35 +20,31 @@ document.body.innerHTML = `
 // Add click handler
 const button = document.getElementById("increment")!;
 const counterElement = document.getElementById("counter")!;
-
-button.addEventListener("click", () => {
-  counter += 1; //update state
-  counterElement.textContent = counter.toString(); //show new state
-  
-});
+const upgradeButton = document.getElementById("upgrade") as HTMLButtonElement;
 
 //display:
-//show current number of leaves on the page
+//show current number of pizzas on the page
 function render() { 
   counterElement.textContent = Math.floor(counter).toString();
+  upgradeButton.disabled = counter < upgradeCost;
 }
 
 //input handling
-//each click grows one leaf
+//each click grows one pizza
 button.addEventListener("click", () => { 
   counter += 1;//update state
   render(); //show new state
 });
 
 //timed growth
-//leaves grown per second, no matter how fast the screen refreshes
-const growthRate: number = 1;
+//pizzas made per second, no matter how fast the screen refreshes
+let growthRate: number = 0;
 
 //time of prev frame in milliseconds
 let lastTime = performance.now();
 
-//runs once per frame. grow leaves based on seconds elapsed,
-//so 60hz and 114hz screen grow at the same speed
+//runs once per frame. made pizzas based on seconds elapsed,
+//so 60hz and 144hz screen grow at the same speed
 function tick(now: number) { 
   const secondsElapsed = (now - lastTime) / 1000;
   lastTime = now;
@@ -59,3 +55,15 @@ function tick(now: number) {
   requestAnimationFrame(tick);//schedule next frame
 }
 requestAnimationFrame(tick);
+
+//upgrade: line cook
+//cost of one line cook in pizzas
+const upgradeCost: number = 10;
+
+//hiring cook spends pizzas and permanently adds 1 pizza/sec
+upgradeButton.addEventListener("click", () => { 
+  if (counter < upgradeCost) return; //can't afford it, do nothing
+  counter -= upgradeCost; //pay cost
+  growthRate += 1; //add lasting effect
+  render();
+});
