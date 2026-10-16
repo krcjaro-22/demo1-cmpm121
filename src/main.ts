@@ -52,14 +52,19 @@ const pizzaImage = document.createElement("img");
 pizzaImage.src = pizza;
 pizzaImage.alt = "Small pizza";
 button.replaceChildren(pizzaImage);
-const tomatoCost: number = 10;
+
+// each purchase makes that upgrade 15% more expensive
 let tomatoesOwned: number = 0;
+let tomatoCost: number = 10;
 
-const cheeseCost: number = 100;
 let cheeseOwned: number = 0;
+let cheeseCost: number = 100;
 
-const ovenCost: number = 1000;
 let ovenOwned: number = 0;
+let ovenCost: number = 1000;
+
+const PRICE_INCREASE: number = 1.15;
+
 //display:deno
 //show current number of pizzas on the page
 function render() {
@@ -81,32 +86,35 @@ function render() {
 
 //input handling
 //each click grows one pizza
-button.addEventListener("click", () => { 
-  counter += 1;// update state
+button.addEventListener("click", () => {
+  counter += 1; // update state
   render(); // show new state
 });
 
-tomatoButton.addEventListener("click", () => { 
+tomatoButton.addEventListener("click", () => {
   if (counter < tomatoCost) return; // can't afford then do nothing
-  counter -= tomatoCost;// pay cost
+  counter -= tomatoCost; // pay cost
   tomatoesOwned += 1;
-  growthRate += 1;// lasting effect
+  growthRate += 1; // lasting effect
+  tomatoCost = Math.floor(tomatoCost * PRICE_INCREASE);
   render();
 });
 
-cheeseButton.addEventListener("click", () => { 
+cheeseButton.addEventListener("click", () => {
   if (counter < cheeseCost) return; // can't afford then do nothing
-  counter -= cheeseCost;// pay cost
+  counter -= cheeseCost; // pay cost
   cheeseOwned += 1;
-  growthRate += 12;// lasting effect
+  growthRate += 12; // lasting effect
+  cheeseCost = Math.floor(cheeseCost * PRICE_INCREASE);
   render();
 });
 
-ovenButton.addEventListener("click", () => { 
+ovenButton.addEventListener("click", () => {
   if (counter < ovenCost) return; // can't afford then do nothing
-  counter -= ovenCost;// pay cost
+  counter -= ovenCost; // pay cost
   ovenOwned += 1;
-  growthRate += 150;// lasting effect
+  growthRate += 150; // lasting effect
+  ovenCost = Math.floor(ovenCost * PRICE_INCREASE);
   render();
 });
 
@@ -119,14 +127,13 @@ let lastTime = performance.now();
 
 //runs once per frame. made pizzas based on seconds elapsed,
 //so 60hz and 144hz screen grow at the same speed
-function tick(now: number) { 
+function tick(now: number) {
   const secondsElapsed = (now - lastTime) / 1000;
   lastTime = now;
 
   counter += growthRate * secondsElapsed;
   render();
 
-  requestAnimationFrame(tick);// schedule next frame
+  requestAnimationFrame(tick); // schedule next frame
 }
 requestAnimationFrame(tick);
-
